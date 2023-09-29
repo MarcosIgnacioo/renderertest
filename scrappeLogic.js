@@ -30,35 +30,11 @@ const scrapeLogic = async (res) => {
 
     await page.goto(desktop);
     
-
+    const title = await page.waitForSelector('.site-name ');
+    console.log(title);
     //Obtener los links de cada clase
-    await page.waitForSelector('.card.dashboard-card',{ timeout: 90000 });
-
-    // Obtener los enlaces dentro del elemento con la clase "card dashboard-card"
-    const links = await page.evaluate(() => {
-      const divs = document.querySelectorAll('.card.dashboard-card');
-      const urls = Array.from(divs)
-      .map(div => Array.from(div.querySelectorAll('.aalink.coursename.mr-2'))
-      .map(anchor => anchor.href))
-
-      const names = Array.from(divs)
-      .map(div => Array.from(div.querySelectorAll('.aalink.coursename.mr-2'))
-      .map(anchor => anchor.querySelector('span.multiline').textContent))
-      return {urls,names};
-    });
-    console.log(links.urls.at(0)[0]);
-    await page.waitForSelector('.event-name-container');
-
-    const tareaTitulo = await page.$$eval('.event-name-container', (elements) => {
-            return elements.map((element) => element.innerText);
-        });
-    
-    const tareasLinks = await page.$$eval('.event-name-container a', (anchors) => {
-            return anchors.map((anchor) => anchor.getAttribute('href'));
-        });
-    const tareasTodo = {tareaTitulo, tareasLinks}
-    console.log(tareasLinks);
-    res.send(tareasTodo);
+    /**/
+    res.send(title);
     }catch(e){
         console.log(e);
         res.send(`No se pueden cargar las materias ahora mismo, verifica que moodle esté funcionando o yo la cague jiji${e}`);
