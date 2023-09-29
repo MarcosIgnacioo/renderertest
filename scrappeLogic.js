@@ -29,12 +29,9 @@ const scrapeLogic = async (res) => {
     await page.click('#loginbtn');
 
     await page.goto(desktop);
-    
-    const title = await page.waitForSelector('.site-name ');
-    console.log(title);
     //Obtener los links de cada clase
     /**/
-    res.send(title);
+    res.send("scrape");
     }catch(e){
         console.log(e);
         res.send(`No se pueden cargar las materias ahora mismo, verifica que moodle esté funcionando o yo la cague jiji${e}`);
