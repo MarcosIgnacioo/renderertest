@@ -32,7 +32,7 @@ const scrapeLogic = async (res) => {
     
 
     //Obtener los links de cada clase
-    await page.waitForSelector('.card.dashboard-card');
+    await page.waitForSelector('.card.dashboard-card',{ timeout: 90000 });
 
     // Obtener los enlaces dentro del elemento con la clase "card dashboard-card"
     const links = await page.evaluate(() => {
