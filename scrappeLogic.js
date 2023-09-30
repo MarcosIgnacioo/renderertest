@@ -5,8 +5,7 @@ const desktop = "https://enlinea2023-2.uabcs.mx/my/";
 const scrapeLogic = async (res) => {
     // Launch the browser and open a new blank page
     const browser = await puppeteer.launch({
-        headless: false,
-        slowMo:3,
+        headless: true,
         args:[
             "--disable-setuid-sandbox",
             "--no-sandbox",
@@ -20,6 +19,9 @@ const scrapeLogic = async (res) => {
     });
     try{
     const page = await browser.newPage();
+    
+    await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36")
+    
     await page.goto(url);
 
     const usernameInput = await page.$('input[name="username"]');
