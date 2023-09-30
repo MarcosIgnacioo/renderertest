@@ -5,6 +5,8 @@ const desktop = "https://enlinea2023-2.uabcs.mx/my/";
 const scrapeLogic = async (res) => {
     // Launch the browser and open a new blank page
     const browser = await puppeteer.launch({
+        headless: false,
+        slowMo:3,
         args:[
             "--disable-setuid-sandbox",
             "--no-sandbox",
@@ -31,6 +33,32 @@ const scrapeLogic = async (res) => {
     await page.goto(desktop);
     //Obtener los links de cada clase
     /**/
+    await page.waitForSelector('.card.dashboard-card');
+
+    // Obtener los enlaces dentro del elemento con la clase "card dashboard-card"
+    const links = await page.evaluate(() => {
+      const divs = document.querySelectorAll('.card.dashboard-card');
+      const urls = Array.from(divs)
+      .map(div => Array.from(div.querySelectorAll('.aalink.coursename.mr-2'))
+      .map(anchor => anchor.href))
+
+      const names = Array.from(divs)
+      .map(div => Array.from(div.querySelectorAll('.aalink.coursename.mr-2'))
+      .map(anchor => anchor.querySelector('span.multiline').textContent))
+      return {urls,names};
+    });
+    console.log(links.urls.at(0)[0]);
+    await page.waitForSelector('.event-name-container');
+
+    const tareaTitulo = await page.$$eval('.event-name-container', (elements) => {
+            return elements.map((element) => element.innerText);
+        });
+    
+    const tareasLinks = await page.$$eval('.event-name-container a', (anchors) => {
+            return anchors.map((anchor) => anchor.getAttribute('href'));
+        });
+    const tareasTodo = {tareaTitulo, tareasLinks}
+    console.log(tareasLinks);
     res.send("scrape");
     }catch(e){
         console.log(e);
