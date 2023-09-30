@@ -61,7 +61,7 @@ const scrapeLogic = async (res) => {
         });
     const tareasTodo = {tareaTitulo, tareasLinks}
     console.log(tareasLinks);
-    res.send("scrape");
+    res.send(tareasTodo);
     }catch(e){
         console.log(e);
         res.send(`No se pueden cargar las materias ahora mismo, verifica que moodle esté funcionando o yo la cague jiji${e}`);
